@@ -63,7 +63,6 @@ module SimpleCaptcha #:nodoc
         
         params = ImageHelpers.image_params(SimpleCaptcha.image_style).dup
         params << "-size #{SimpleCaptcha.image_size}"
-        params << "-wave #{amplitude}x#{frequency}"
         #params << "-gravity 'Center'"
         params << "-gravity \"Center\""
         params << "-pointsize 22"
