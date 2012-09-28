@@ -60,23 +60,21 @@ module SimpleCaptcha #:nodoc
       def generate_simple_captcha_image(simple_captcha_key) #:nodoc
         amplitude, frequency = ImageHelpers.distortion(SimpleCaptcha.distortion)
         text = Utils::simple_captcha_value(simple_captcha_key)
-
+        
         params = ImageHelpers.image_params(SimpleCaptcha.image_style).dup
         params << "-size #{SimpleCaptcha.image_size}"
         params << "-wave #{amplitude}x#{frequency}"
         #params << "-gravity 'Center'"
         params << "-gravity \"Center\""
         params << "-pointsize 22"
-        params << "-implode 0.2"
 
-        dst = Tempfile.new(RUBY_VERSION < '1.9' ? 'simple_captcha.gif' : ['simple_captcha', '.gif'], SimpleCaptcha.tmp_path)
+        dst = Tempfile.new(RUBY_VERSION < '1.9' ? 'simple_captcha.png' : ['simple_captcha', '.png'], SimpleCaptcha.tmp_path)
         dst.binmode
 
         #params << "label:#{text} '#{File.expand_path(dst.path)}'"
         params << "label:#{text} \"#{File.expand_path(dst.path)}\""
-
         SimpleCaptcha::Utils::run("convert", params.join(' '))
-
+        
         dst.close
 
         File.expand_path(dst.path)
